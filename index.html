@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mo Space Explorer - Journey Through the Cosmos</title>
+    <title>Mo Space Explorer - Cosmic Odyssey</title>
     <style>
         * {
             margin: 0;
@@ -13,38 +13,47 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0c1445 0%, #1a1a2e 50%, #16213e 100%);
-            color: #e8e8e8;
+            background: #0a0a0a;
+            color: #ffffff;
             line-height: 1.6;
             overflow-x: hidden;
         }
         
-        .stars {
+        /* Enhanced starfield animation */
+        .starfield {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            background: 
-                radial-gradient(2px 2px at 20px 30px, #eee, transparent),
-                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
-                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
-                radial-gradient(2px 2px at 160px 30px, #eee, transparent);
-            background-repeat: repeat;
-            background-size: 200px 100px;
-            animation: twinkle 3s infinite;
             z-index: -1;
         }
         
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+        
+        .star.small { width: 1px; height: 1px; }
+        .star.medium { width: 2px; height: 2px; }
+        .star.large { width: 3px; height: 3px; }
+        
         @keyframes twinkle {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        
+        /* Floating planets animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
             position: relative;
@@ -53,299 +62,565 @@
         
         header {
             text-align: center;
-            margin-bottom: 60px;
-            padding: 60px 0;
+            margin-bottom: 80px;
+            padding: 80px 0;
+            background: radial-gradient(ellipse at center, rgba(100, 181, 246, 0.15) 0%, transparent 70%);
         }
         
-        h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #64b5f6, #81c784, #ffb74d);
+        .main-title {
+            font-size: 4.5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #64b5f6, #81c784, #ffb74d, #f06292);
+            background-size: 400% 400%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: gradientShift 4s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(100, 181, 246, 0.5);
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
         
         .subtitle {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             color: #b0b0b0;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+        
+        .mission-statement {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #e0e0e0;
+            line-height: 1.8;
         }
         
         .section {
-            margin-bottom: 80px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 40px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            margin-bottom: 100px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
         }
         
-        .section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            color: #64b5f6;
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #64b5f6, transparent);
+        }
+        
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 40px;
             text-align: center;
+            color: #64b5f6;
+            text-shadow: 0 0 20px rgba(100, 181, 246, 0.3);
         }
         
         .planets-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
         }
         
         .planet-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            border-radius: 12px;
-            padding: 25px;
-            border: 1px solid rgba(255,255,255,0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+            border-radius: 20px;
+            padding: 35px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .planet-card:nth-child(even) {
+            animation-delay: -3s;
+        }
+        
+        .planet-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(100, 181, 246, 0.1) 0%, transparent 70%);
+            transform: rotate(0deg);
+            transition: transform 0.6s ease;
+        }
+        
+        .planet-card:hover::before {
+            transform: rotate(180deg);
         }
         
         .planet-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(100, 181, 246, 0.2);
-        }
-        
-        .planet-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #81c784;
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(100, 181, 246, 0.2);
+            border-color: rgba(100, 181, 246, 0.3);
         }
         
         .planet-emoji {
-            font-size: 3rem;
+            font-size: 4rem;
             display: block;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+            transition: transform 0.3s ease;
         }
         
-        .star-facts {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            padding: 30px;
-            border-radius: 15px;
-            margin: 40px 0;
+        .planet-card:hover .planet-emoji {
+            transform: rotate(360deg) scale(1.1);
         }
         
-        .star-facts h3 {
-            color: #ffb74d;
+        .planet-name {
             font-size: 1.8rem;
+            font-weight: bold;
             margin-bottom: 20px;
+            color: #81c784;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(129, 199, 132, 0.3);
         }
         
-        .facts-list {
-            list-style: none;
-            padding: 0;
+        .planet-description {
+            position: relative;
+            z-index: 2;
+            line-height: 1.7;
         }
         
-        .facts-list li {
-            margin: 15px 0;
-            padding-left: 30px;
+        .star-section {
+            background: linear-gradient(135deg, rgba(30, 60, 114, 0.15) 0%, rgba(42, 82, 152, 0.15) 100%);
+            border: 1px solid rgba(100, 181, 246, 0.2);
+        }
+        
+        .stellar-facts {
+            background: linear-gradient(135deg, rgba(255, 183, 77, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 50px 0;
+            border: 1px solid rgba(255, 183, 77, 0.2);
+        }
+        
+        .stellar-facts h3 {
+            color: #ffb74d;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(255, 183, 77, 0.3);
+        }
+        
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .fact-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #ffb74d;
+            transition: transform 0.3s ease;
+        }
+        
+        .fact-item:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .fact-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: #ffb74d;
+        }
+        
+        .cosmic-quote {
+            text-align: center;
+            font-size: 1.4rem;
+            font-style: italic;
+            margin: 60px 0;
+            color: #ffb74d;
+            padding: 50px;
+            background: 
+                radial-gradient(ellipse at center, rgba(255, 183, 77, 0.1) 0%, transparent 70%),
+                linear-gradient(45deg, rgba(100, 181, 246, 0.05), rgba(129, 199, 132, 0.05));
+            border-radius: 20px;
+            border: 1px solid rgba(255, 183, 77, 0.2);
             position: relative;
         }
         
-        .facts-list li::before {
-            content: "✨";
+        .cosmic-quote::before,
+        .cosmic-quote::after {
+            content: '"';
+            font-size: 6rem;
+            color: rgba(255, 183, 77, 0.3);
             position: absolute;
-            left: 0;
-            top: 0;
+        }
+        
+        .cosmic-quote::before {
+            top: 10px;
+            left: 20px;
+        }
+        
+        .cosmic-quote::after {
+            bottom: 10px;
+            right: 20px;
         }
         
         .exploration-timeline {
-            background: rgba(129, 199, 132, 0.1);
-            padding: 30px;
-            border-radius: 15px;
-            border-left: 4px solid #81c784;
+            background: linear-gradient(135deg, rgba(129, 199, 132, 0.1), rgba(76, 175, 80, 0.1));
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(129, 199, 132, 0.2);
         }
         
         .timeline-item {
-            margin-bottom: 25px;
-            padding: 20px;
+            margin-bottom: 35px;
+            padding: 30px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
+            border-radius: 15px;
+            border-left: 5px solid #81c784;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .timeline-item:hover {
+            transform: translateX(15px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(129, 199, 132, 0.15);
         }
         
         .timeline-year {
             font-weight: bold;
             color: #64b5f6;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
         }
         
-        .quote {
-            text-align: center;
-            font-size: 1.3rem;
-            font-style: italic;
+        .discovery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
             margin: 50px 0;
-            color: #ffb74d;
-            padding: 30px;
-            background: rgba(255, 183, 77, 0.1);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 183, 77, 0.3);
+        }
+        
+        .discovery-card {
+            background: linear-gradient(145deg, rgba(156, 39, 176, 0.1), rgba(103, 58, 183, 0.1));
+            border: 1px solid rgba(156, 39, 176, 0.2);
+            border-radius: 20px;
+            padding: 35px;
+            transition: transform 0.3s ease;
+        }
+        
+        .discovery-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(156, 39, 176, 0.2);
+        }
+        
+        .discovery-title {
+            font-size: 1.6rem;
+            color: #ba68c8;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(186, 104, 200, 0.3);
         }
         
         footer {
             text-align: center;
-            padding: 40px 0;
+            padding: 60px 0;
             color: #888;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 60px;
+            margin-top: 80px;
+            background: radial-gradient(ellipse at center, rgba(100, 181, 246, 0.05) 0%, transparent 70%);
+        }
+        
+        .footer-content {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
         }
         
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
+            .main-title {
+                font-size: 3rem;
             }
             
             .section {
-                padding: 25px;
-                margin-bottom: 40px;
+                padding: 30px;
+                margin-bottom: 60px;
             }
             
-            .planets-grid {
+            .planets-grid,
+            .facts-grid,
+            .discovery-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
+                gap: 25px;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="stars"></div>
+    <div class="starfield" id="starfield"></div>
     
     <div class="container">
         <header>
-            <h1>🌌 Mo Space Explorer</h1>
-            <p class="subtitle">Journey Through the Infinite Cosmos</p>
-            <p>Discovering the wonders of our universe, one celestial body at a time</p>
+            <h1 class="main-title">🌌 Mo Space Explorer</h1>
+            <p class="subtitle">COSMIC ODYSSEY</p>
+            <p class="mission-statement">
+                Embark on an extraordinary journey through the infinite cosmos, where each celestial body tells a story billions of years in the making. From the scorching surface of Mercury to the mysterious depths of Neptune, discover the wonders that illuminate our universe and inspire our eternal quest for knowledge.
+            </p>
         </header>
 
         <section class="section">
-            <h2>🪐 The Planets of Our Solar System</h2>
-            <p>Each planet in our solar system is unique, with its own personality, mysteries, and breathtaking beauty. Let's explore these magnificent worlds that share our cosmic neighborhood.</p>
+            <h2 class="section-title">🪐 Planetary Wonders</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 30px; color: #b0b0b0;">
+                Each world in our solar system is a unique masterpiece, sculpted by cosmic forces across eons of time.
+            </p>
             
             <div class="planets-grid">
                 <div class="planet-card">
-                    <span class="planet-emoji">☀️</span>
+                    <span class="planet-emoji">☿️</span>
                     <div class="planet-name">Mercury</div>
-                    <p>The swift messenger of the gods. Mercury races around the Sun in just 88 Earth days, experiencing scorching days of 800°F and freezing nights of -300°F. Its cratered surface tells stories of billions of years of cosmic bombardment.</p>
+                    <div class="planet-description">
+                        The swift messenger races around our Sun in just 88 Earth days. Its cratered surface endures temperature extremes from 800°F in blazing sunlight to -300°F in eternal shadow. This small world holds secrets of planetary formation in its ancient, battered landscape.
+                    </div>
                 </div>
 
                 <div class="planet-card">
                     <span class="planet-emoji">♀️</span>
                     <div class="planet-name">Venus</div>
-                    <p>Earth's mysterious twin, shrouded in thick clouds of sulfuric acid. Beneath its beautiful appearance lies a hellish world with surface temperatures hot enough to melt lead, making it the hottest planet in our solar system.</p>
+                    <div class="planet-description">
+                        Shrouded in mystery beneath clouds of sulfuric acid, Venus hides a hellish world where lead would melt on the surface. Once Earth's twin, this planet's runaway greenhouse effect serves as a dramatic reminder of atmospheric power and planetary evolution.
+                    </div>
                 </div>
 
                 <div class="planet-card">
                     <span class="planet-emoji">🌍</span>
                     <div class="planet-name">Earth</div>
-                    <p>Our pale blue dot, the only known harbor of life in the universe. From its swirling white clouds to its vast blue oceans, Earth is a precious oasis of life, consciousness, and wonder in the cosmic dark.</p>
+                    <div class="planet-description">
+                        Our pale blue dot, the only known sanctuary of life in the vast cosmos. From its swirling white clouds to its deep blue oceans, Earth cradles an incredible diversity of life forms, consciousness, and dreams that reach for the stars.
+                    </div>
                 </div>
 
                 <div class="planet-card">
-                    <span class="planet-emoji">🔴</span>
+                    <span class="planet-emoji">♂️</span>
                     <div class="planet-name">Mars</div>
-                    <p>The Red Planet, humanity's next frontier. With its rusty iron oxide surface, polar ice caps, and evidence of ancient water flows, Mars beckons as our future second home among the stars.</p>
+                    <div class="planet-description">
+                        The Red Planet beckons as humanity's next frontier. With evidence of ancient rivers, polar ice caps, and the largest volcano in the solar system, Mars holds the promise of becoming our second home among the stars.
+                    </div>
                 </div>
 
                 <div class="planet-card">
-                    <span class="planet-emoji">🌪️</span>
+                    <span class="planet-emoji">♃</span>
                     <div class="planet-name">Jupiter</div>
-                    <p>The king of planets, a gas giant with a storm larger than Earth that has raged for centuries. Jupiter's powerful gravity has shaped our solar system, protecting inner planets from asteroids and comets.</p>
+                    <div class="planet-description">
+                        The king of planets, a gas giant whose Great Red Spot has raged for centuries. Jupiter's immense gravity has shaped our solar system's architecture, acting as a cosmic guardian that protects inner worlds from asteroids and comets.
+                    </div>
                 </div>
 
                 <div class="planet-card">
-                    <span class="planet-emoji">💍</span>
+                    <span class="planet-emoji">♄</span>
                     <div class="planet-name">Saturn</div>
-                    <p>The jewel of the solar system, adorned with spectacular rings of ice and rock. Saturn's beauty has captivated astronomers for centuries, and its moon Titan holds lakes of liquid methane.</p>
+                    <div class="planet-description">
+                        The jewel of our solar system, adorned with spectacular rings of ice and rock. Saturn's ethereal beauty has captivated observers for centuries, while its moon Titan harbors lakes of liquid methane in an alien but familiar landscape.
+                    </div>
                 </div>
 
                 <div class="planet-card">
-                    <span class="planet-emoji">❄️</span>
+                    <span class="planet-emoji">♅</span>
                     <div class="planet-name">Uranus</div>
-                    <p>The sideways world, rolling on its side as it orbits the Sun. This ice giant glows with a pale blue-green light from methane in its atmosphere and experiences seasons that last 21 Earth years.</p>
+                    <div class="planet-description">
+                        The sideways world, rolling on its side as it orbits the Sun. This ice giant glows with pale blue-green light from methane in its atmosphere and experiences seasons that last 21 Earth years, creating a world of eternal change.
+                    </div>
                 </div>
 
                 <div class="planet-card">
-                    <span class="planet-emoji">🌊</span>
+                    <span class="planet-emoji">♆</span>
                     <div class="planet-name">Neptune</div>
-                    <p>The windiest planet, with storms raging at 1,200 mph. This deep blue world is the most distant major planet, taking 165 Earth years to complete one orbit around our Sun.</p>
+                    <div class="planet-description">
+                        The windiest world, where storms rage at supersonic speeds of 1,200 mph. This deep blue giant, the most distant major planet, takes 165 Earth years to complete one orbit, making it a world of vast temporal scales.
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="section">
-            <h2>⭐ Stars - The Cosmic Beacons</h2>
+        <section class="section star-section">
+            <h2 class="section-title">⭐ Stellar Magnificence</h2>
             
-            <div class="star-facts">
-                <h3>Fascinating Stellar Facts</h3>
-                <ul class="facts-list">
-                    <li>Stars are born in stellar nurseries called nebulae, where gas and dust collapse under gravity</li>
-                    <li>Our Sun converts 4 million tons of mass into energy every second through nuclear fusion</li>
-                    <li>The largest known star, UY Scuti, could fit 5 billion of our Suns inside it</li>
-                    <li>When massive stars die, they can become black holes - regions where gravity is so strong that not even light can escape</li>
-                    <li>There are more stars in the universe than grains of sand on all Earth's beaches</li>
-                    <li>The light from some stars we see tonight left them before humans existed on Earth</li>
-                    <li>Red dwarf stars can burn for trillions of years - far longer than the universe has existed</li>
-                </ul>
+            <div class="stellar-facts">
+                <h3>✨ Cosmic Revelations</h3>
+                <div class="facts-grid">
+                    <div class="fact-item">
+                        <span class="fact-icon">🌟</span>
+                        Stars are born in stellar nurseries called nebulae, where gravity sculpts gas and dust into brilliant cosmic furnaces.
+                    </div>
+                    <div class="fact-item">
+                        <span class="fact-icon">☀️</span>
+                        Our Sun converts 4 million tons of mass into pure energy every second through the miracle of nuclear fusion.
+                    </div>
+                    <div class="fact-item">
+                        <span class="fact-icon">🔴</span>
+                        The largest known star, UY Scuti, is so massive it could contain 5 billion of our Suns within its cosmic embrace.
+                    </div>
+                    <div class="fact-item">
+                        <span class="fact-icon">🕳️</span>
+                        When massive stars die, they can collapse into black holes where space and time themselves bend to infinity.
+                    </div>
+                    <div class="fact-item">
+                        <span class="fact-icon">🏖️</span>
+                        There are more stars in the observable universe than grains of sand on all of Earth's beaches combined.
+                    </div>
+                    <div class="fact-item">
+                        <span class="fact-icon">⏰</span>
+                        The light from distant stars carries ancient messages - some left their source before humans walked the Earth.
+                    </div>
+                </div>
             </div>
 
-            <div class="quote">
-                "The nitrogen in our DNA, the calcium in our teeth, the iron in our blood, the carbon in our apple pies were made in the interiors of collapsing stars. We are made of star stuff."<br>
+            <div class="cosmic-quote">
+                The nitrogen in our DNA, the calcium in our teeth, the iron in our blood, the carbon in our apple pies were made in the interiors of collapsing stars. We are made of star stuff.
+                <br><br>
                 <strong>— Carl Sagan</strong>
             </div>
         </section>
 
         <section class="section">
-            <h2>🚀 Milestones in Space Exploration</h2>
+            <h2 class="section-title">🚀 Milestones of Discovery</h2>
             
             <div class="exploration-timeline">
                 <div class="timeline-item">
-                    <div class="timeline-year">1957</div>
-                    <p>Sputnik 1 becomes the first artificial satellite, beginning the Space Age and forever changing how humanity sees our place in the cosmos.</p>
+                    <div class="timeline-year">🛰️ 1957</div>
+                    <p>Sputnik 1 pierces the veil of Earth's atmosphere, becoming humanity's first artificial moon and heralding the dawn of the Space Age.</p>
                 </div>
 
                 <div class="timeline-item">
-                    <div class="timeline-year">1961</div>
-                    <p>Yuri Gagarin becomes the first human in space, proving that we can survive beyond Earth's protective embrace and opening the door to human space exploration.</p>
+                    <div class="timeline-year">👨‍🚀 1961</div>
+                    <p>Yuri Gagarin becomes the first human to slip the surly bonds of Earth, proving we can survive in the cosmic ocean and opening infinite possibilities.</p>
                 </div>
 
                 <div class="timeline-item">
-                    <div class="timeline-year">1969</div>
-                    <p>Apollo 11 lands on the Moon. Neil Armstrong's first steps mark humanity's greatest adventure - leaving our home world to walk on another celestial body.</p>
+                    <div class="timeline-year">🌙 1969</div>
+                    <p>Apollo 11 achieves humanity's greatest adventure - leaving our home world to walk on another celestial body, forever changing our cosmic perspective.</p>
                 </div>
 
                 <div class="timeline-item">
-                    <div class="timeline-year">1977</div>
-                    <p>Voyager 1 and 2 launch on their Grand Tour of the outer solar system, eventually becoming humanity's farthest ambassadors in interstellar space.</p>
+                    <div class="timeline-year">🛸 1977</div>
+                    <p>Voyager 1 and 2 begin their Grand Tour, becoming humanity's most distant ambassadors and carrying our messages to the stars.</p>
                 </div>
 
                 <div class="timeline-item">
-                    <div class="timeline-year">1990</div>
-                    <p>Hubble Space Telescope begins operations, transforming our understanding of the universe and inspiring wonder with its breathtaking images of cosmic beauty.</p>
+                    <div class="timeline-year">🔭 1990</div>
+                    <p>Hubble Space Telescope opens its eye to the cosmos, transforming our understanding and inspiring wonder with breathtaking images of cosmic beauty.</p>
                 </div>
 
                 <div class="timeline-item">
-                    <div class="timeline-year">2021</div>
-                    <p>James Webb Space Telescope launches, designed to peer deeper into space and time than ever before, searching for the first galaxies and signs of life.</p>
+                    <div class="timeline-year">🌌 2021</div>
+                    <p>James Webb Space Telescope launches to peer deeper into space and time, searching for the universe's first light and signs of life beyond Earth.</p>
                 </div>
             </div>
         </section>
 
         <section class="section">
-            <h2>🌌 The Future Awaits</h2>
-            <p>We stand at the threshold of a new age of exploration. From the first human footsteps on Mars to the discovery of life on distant exoplanets, the universe holds infinite possibilities. Each day brings new discoveries that expand our cosmic perspective and remind us that we are part of something magnificent and vast.</p>
+            <h2 class="section-title">🔬 Recent Cosmic Discoveries</h2>
             
-            <p>The stars that guided our ancestors still shine above us tonight, calling us to explore, to discover, and to dream. Our journey through the cosmos has only just begun.</p>
+            <div class="discovery-grid">
+                <div class="discovery-card">
+                    <div class="discovery-title">🌍 Exoplanet Revolution</div>
+                    <p>Over 5,000 worlds beyond our solar system have been discovered, including potentially habitable planets orbiting distant stars. Some may harbor the conditions for life as we know it.</p>
+                </div>
+
+                <div class="discovery-card">
+                    <div class="discovery-title">🌊 Ocean Moons</div>
+                    <p>Europa, Enceladus, and Titan harbor vast oceans beneath their icy shells, creating potential habitats for life in the most unexpected places in our solar system.</p>
+                </div>
+
+                <div class="discovery-card">
+                    <div class="discovery-title">🕳️ Black Hole Images</div>
+                    <p>The Event Horizon Telescope captured the first direct images of black holes, revealing the cosmic monsters that Einstein predicted but thought we'd never see.</p>
+                </div>
+
+                <div class="discovery-card">
+                    <div class="discovery-title">🌌 Dark Energy</div>
+                    <p>The universe is expanding at an accelerating rate, driven by mysterious dark energy that comprises 70% of all cosmic content yet remains largely unknown.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">🌅 The Infinite Future</h2>
+            <p style="font-size: 1.3rem; line-height: 1.8; text-align: center; max-width: 900px; margin: 0 auto;">
+                We stand at the threshold of a new cosmic age. From the first human footsteps on Mars to the discovery of life on distant exoplanets, from interstellar travel to the colonization of other worlds, the universe holds infinite possibilities waiting to be explored.
+            </p>
+            
+            <p style="font-size: 1.2rem; line-height: 1.8; text-align: center; max-width: 800px; margin: 40px auto 0; color: #b0b0b0;">
+                The same stars that guided our ancestors across ancient seas still shine above us tonight, calling us to explore, to discover, and to dream beyond the boundaries of our small blue world. Our cosmic journey has only just begun.
+            </p>
         </section>
 
         <footer>
-            <p>✨ Created with wonder and curiosity about our amazing universe ✨</p>
-            <p>Mo Space Explorer © 2026</p>
+            <div class="footer-content">
+                ✨ Created with infinite wonder and boundless curiosity about our magnificent universe ✨
+            </div>
+            <p>Mo Space Explorer © 2026 | Reaching for the Stars</p>
         </footer>
     </div>
+
+    <script>
+        // Create animated starfield
+        function createStarfield() {
+            const starfield = document.getElementById('starfield');
+            const numStars = 200;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random size
+                const sizes = ['small', 'medium', 'large'];
+                star.classList.add(sizes[Math.floor(Math.random() * sizes.length)]);
+                
+                // Random position
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                
+                // Random animation delay
+                star.style.animationDelay = Math.random() * 2 + 's';
+                
+                starfield.appendChild(star);
+            }
+        }
+        
+        // Initialize starfield when page loads
+        document.addEventListener('DOMContentLoaded', createStarfield);
+        
+        // Add subtle parallax effect to planet cards
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.planet-card');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            cards.forEach((card, index) => {
+                const xOffset = (mouseX - 0.5) * 20 * (index % 2 === 0 ? 1 : -1);
+                const yOffset = (mouseY - 0.5) * 20 * (index % 2 === 0 ? 1 : -1);
+                
+                card.style.transform = `translate(${xOffset * 0.5}px, ${yOffset * 0.5}px)`;
+            });
+        });
+    </script>
 </body>
 </html>
